@@ -126,6 +126,11 @@ export function Landing() {
         className="h-auto w-full"
       />
       <p className="mt-8 px-5 text-center text-sm text-muted">
+        <Link href="/share" className="underline underline-offset-4 hover:text-foreground">
+          Share your banner
+        </Link>
+      </p>
+      <p className="mt-4 px-5 text-center text-sm text-muted">
         <a
           href="https://jessica.is/creating/on-banner-duty/"
           className="underline underline-offset-4 hover:text-foreground"

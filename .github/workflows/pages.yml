@@ -39,6 +39,7 @@ jobs:
         run: npm run build
         env:
           PAGES_BASE_PATH: ${{ steps.setup_pages.outputs.base_path }}
+          NEXT_PUBLIC_SHARE_ENDPOINT: ${{ vars.SHARE_ENDPOINT }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

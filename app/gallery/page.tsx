@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SiteHeader } from "@/components/site-header";
 import { gallery } from "@/lib/gallery";
 import { publicPath } from "@/lib/public-path";
@@ -29,6 +30,11 @@ export default function GalleryPage() {
           </figure>
         ))}
       </div>
+      <p className="mt-12 text-lg">
+        <Link href="/share" className="font-semibold underline underline-offset-4">
+          Share your banner
+        </Link>
+      </p>
     </main>
   );
 }

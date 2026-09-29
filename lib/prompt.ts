@@ -1,6 +1,6 @@
 import { colorDirection, secondaryColorDirection } from "@/lib/colors";
 import { isLongName, type Draft } from "@/lib/draft";
-import { vibesByIds, type Vibe } from "@/lib/vibes";
+import { vibesByIds } from "@/lib/vibes";
 
 const SKIP_WORDS = new Set([
   "fc",
@@ -105,31 +105,11 @@ export function motifGuidance(teamName: string): string {
   }
 
   if (!motif) {
-    return "The name does not suggest a specific mascot. Use symbolic imagery such as a soccer ball, a crest, motion, or the team colors rather than inventing an unrelated animal. Do not reproduce a trademarked or copyrighted character.";
+    return "The name does not suggest a specific mascot. Use symbolic imagery such as a soccer ball, motion, or the team colors rather than inventing an unrelated animal. Do not reproduce a trademarked or copyrighted character.";
   }
 
   const noun = singular(motif);
   return `The name suggests “${noun}” as a visual motif. Use an original ${noun}. Do not reproduce a trademarked or copyrighted character.`;
-}
-
-function vibeDirection(vibes: Vibe[]): string {
-  const lines = vibes.map(
-    (vibe) => `- ${vibe.label}: look ${vibe.visual}. Mascot should be ${vibe.mascot}. Typography should be ${vibe.type}.`,
-  );
-  return ["Style direction from the selected vibes:", ...lines].join("\n");
-}
-
-function typographyRules(name: string): string {
-  const lines = [
-    "Prioritize the team name so it remains readable from across a soccer field.",
-    `Spell the team name exactly as written here: ${name}. You may set it in athletic capitals, but every word must match.`,
-  ];
-  if (isLongName(name)) {
-    lines.push(
-      "The team name is long. Favor condensed athletic typography and break it across 2–3 lines so it stays readable.",
-    );
-  }
-  return lines.join(" ");
 }
 
 function rosterLine(draft: Draft): string {
@@ -159,40 +139,81 @@ export function buildConceptPrompt(draft: Draft): string {
   const notes = draft.notes.trim();
 
   const sections = [
-    "You are a sports brand designer. Create concept art for a youth soccer team banner that hangs on a sideline. It has to read from across the field, in daylight, and in a phone photo. Make it feel like a club identity: confident, original, and made for kids. Not a party decoration, and not a copy of a pro league brand.",
-    [`Team name: ${name}`, rosterLine(draft), colorBrief(draft), `Vibe: ${vibeLabels || "energetic youth soccer"}`]
+    [
+      "You are a sports brand designer creating concept art for a youth soccer team banner that hangs on a sideline.",
+      "The banner must read clearly from across the soccer field, in bright daylight, and in a phone photo.",
+      "The result should feel like a real youth club identity: confident, original, memorable, and made for kids.",
+      "Do not make it feel like a party decoration, a generic sports template, a stock mascot logo, or a copy of a professional sports league identity.",
+    ].join("\n"),
+    ["TEAM", `Team name: ${name}`, rosterLine(draft), colorBrief(draft), `Vibe: ${vibeLabels || "energetic youth soccer"}`]
       .filter(Boolean)
       .join("\n"),
-    "Create THREE distinctly different concepts for one horizontal banner, aspect ratio 5:3. These are explorations to compare. Do not prepare a final print file, and do not claim any image is already production-resolution.",
-    [
-      "Brand rules:",
-      typographyRules(name),
-      colorRule(draft),
-      motifGuidance(name),
-      "The mascot should feel powerful and confident, and still welcome to kids. Never frightening, violent, or adult.",
-      "Soccer belongs in the design through a ball, a pitch, a stadium, or motion. The name and mascot lead. The sport is the setting.",
-    ].join("\n"),
-    vibes.length > 0 ? vibeDirection(vibes) : "",
     notes ? `Direction from the parent, follow this closely: ${notes}` : "",
     [
-      "Craft:",
-      "One focal point. A silhouette that reads at a distance. A limited palette. Athletic typography with real weight and spacing.",
-      "Do not use clip art, a generic stock mascot, muddy textures, or three layouts that are the same idea with small changes.",
-      "Before you finish, check paws, hands, limbs, duplicated parts, soccer-ball geometry, and the spelling of the team name.",
+      "Create THREE distinctly different visual identity concepts for one horizontal youth soccer banner.",
+      "Aspect ratio: 5:3",
+      "These are concept explorations only. Do not prepare a final print file. Do not claim any image is already production-resolution.",
+      "Design three identities, not three variations of one template.",
     ].join("\n"),
     [
-      "Concept 1 — Action",
-      "The mascot is in the play: striking, chasing, or controlling the ball. Show movement and a pitch or stadium. Let the vibe come through the action.",
+      "Before designing, silently choose three clearly different art-direction families.",
+      "Possible families: heritage athletic, modern club, hand-painted signage, 90s sports graphics, 70s rec league, editorial poster, comic action, mascot patch, surf/skate, minimal graphic, storybook illustration, street-sport, futurist, folk/handmade, cinematic.",
+      "Do not show or label the chosen families unless useful.",
     ].join("\n"),
     [
-      "Concept 2 — Crest",
-      "A badge or crest with a strong mascot mark and a clear type hierarchy. More restraint, more open space, still this team.",
+      "DIVERSITY RULE",
+      "Each concept must differ from the other two in at least four of these six dimensions: typography family, composition, mascot rendering style, graphic language, background treatment, and era or visual reference.",
+      "If two concepts would still feel like the same template after swapping the mascot and colors, redesign one of them.",
     ].join("\n"),
     [
-      "Concept 3 — Wildcard",
-      "A third direction: cinematic, illustrative, typographic, or retro. It must still be this name, these colors, and this team, and it must not resemble the first two.",
+      "TYPOGRAPHY RULE",
+      "Typography is a major part of the identity.",
+      "Do not automatically default to varsity block, condensed italic sports type, or brush script.",
+      "Across the three concepts, use three clearly different typography personalities, such as rounded grotesk, compressed slab, hand-painted sign lettering, geometric sans, retro bubble athletic lettering, custom angular display type, editorial oversized type, stitched or patch-inspired lettering, or playful hand-drawn lettering.",
+      "Custom-draw or modify the wordmark where appropriate so it feels owned by the team rather than typed from a generic sports font.",
+      isLongName(name)
+        ? "The team name is long. Break it across 2–3 lines so it stays readable from across the field. Do not solve that by defaulting to condensed varsity type."
+        : "",
+    ]
+      .filter(Boolean)
+      .join("\n"),
+    [
+      "BRAND RULES",
+      "Prioritize the team name so it remains readable from across a soccer field.",
+      `Spell the team name exactly: ${name}`,
+      "You may set it in capitals if appropriate, but every word must match.",
+      colorRule(draft),
+      motifGuidance(name),
+      "The mascot should feel confident, energetic, age-appropriate, and easy for kids to love. Never frightening, violent, sexualized, or adult.",
+      "Soccer should appear naturally through a ball, a pitch, a goal, movement, field markings, or stadium context. The team name and identity lead. Soccer is the setting, not the entire concept.",
     ].join("\n"),
-    "Show all three concepts together in one image so they can be compared side by side.",
+    [
+      "CRAFT RULES",
+      "Each concept should have one clear focal point, a silhouette that reads at a distance, strong contrast, a limited palette, intentional type hierarchy, and comfortable safe margins.",
+      "Avoid muddy textures, overly busy backgrounds, tiny decorative details, clip art, generic stock mascot poses, duplicated visual motifs, and unnecessary shields or crests.",
+      "Do not use a crest unless the selected art direction genuinely calls for one.",
+    ].join("\n"),
+    [
+      "CONCEPT 1 — CHARACTER-LED",
+      "Build the identity around the personality or movement of the mascot: action, attitude, motion, interaction with the soccer ball, or a bold character silhouette.",
+      "Do not automatically use a stadium or the standard mascot-left, giant-text-right composition. Let the chosen art direction determine the layout.",
+    ].join("\n"),
+    [
+      "CONCEPT 2 — IDENTITY-LED",
+      "Build the concept around the visual identity rather than mascot action: a custom wordmark, symbol, monogram, patch, stripe system, graphic pattern, abstract mascot mark, or strong type-led composition.",
+      "A crest is only one possible solution. Use more restraint and hierarchy than Concept 1.",
+    ].join("\n"),
+    [
+      "CONCEPT 3 — ART-DIRECTION WILDCARD",
+      "Choose a visual world that feels significantly different from Concepts 1 and 2: retro rec league, editorial sports poster, hand-painted sign, comic book, surf/skate, minimal club identity, folk illustration, cinematic, futuristic, storybook, vintage patch, or experimental typography.",
+      "This concept should be the least predictable while still feeling usable as a real youth soccer team identity.",
+    ].join("\n"),
+    [
+      "FINAL DIVERSITY CHECK",
+      "Before rendering, confirm all three typography styles are meaningfully different, no two concepts use the same basic composition, no two mascots are rendered in the same illustration style, and no two concepts rely on the same sports-logo formula.",
+      "Confirm the team name is spelled correctly. Check paws, hands, limbs, duplicated parts, and soccer-ball geometry.",
+      "Show all three concepts together in one image so they can be compared.",
+    ].join("\n"),
   ];
 
   return sections.filter(Boolean).join("\n\n");

@@ -27,4 +27,25 @@ export const gallery = [
     width: 1024,
     height: 614,
   },
+  {
+    src: "/gallery/grasshoppers.webp",
+    alt: "The Grasshoppers banner: a green grasshopper in cleats kicking a soccer ball through tall grass.",
+    title: "The Grasshoppers",
+    width: 1024,
+    height: 614,
+  },
+  {
+    src: "/gallery/blazing-bumblebees-girls.webp",
+    alt: "Blazing Bumblebees Girls banner: a cartoon bee flying beside bold black and yellow lettering and a soccer ball.",
+    title: "Blazing Bumblebees Girls",
+    width: 1024,
+    height: 614,
+  },
+  {
+    src: "/gallery/black-magic.webp",
+    alt: "Black Magic banner: a player in a number 10 jersey standing on a soccer ball under a full moon.",
+    title: "Black Magic",
+    width: 1024,
+    height: 614,
+  },
 ] as const;
