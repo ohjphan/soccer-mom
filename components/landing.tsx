@@ -126,12 +126,11 @@ export function Landing() {
         className="h-auto w-full"
       />
       <p className="mt-8 px-5 text-center text-sm text-muted">
-        Made by{" "}
         <a
-          href="https://jessica.is/a-soccer-mom"
+          href="https://jessica.is/creating/a-soccer-mom/"
           className="underline underline-offset-4 hover:text-foreground"
         >
-          jessica.is/a-soccer-mom
+          Jessica Phan
         </a>
       </p>
     </footer>
