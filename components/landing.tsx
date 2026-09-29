@@ -127,7 +127,7 @@ export function Landing() {
       />
       <p className="mt-8 px-5 text-center text-sm text-muted">
         <a
-          href="https://jessica.is/creating/a-soccer-mom/"
+          href="https://jessica.is/creating/on-banner-duty/"
           className="underline underline-offset-4 hover:text-foreground"
         >
           Jessica Phan
