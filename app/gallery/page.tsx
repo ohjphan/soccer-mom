@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { gallery } from "@/lib/gallery";
+import { publicPath } from "@/lib/public-path";
 
 export const metadata: Metadata = {
   title: "Gallery",
@@ -16,7 +17,7 @@ export default function GalleryPage() {
         {gallery.map((item) => (
           <figure key={item.src}>
             <img
-              src={item.src}
+              src={publicPath(item.src)}
               alt={item.alt}
               width={item.width}
               height={item.height}

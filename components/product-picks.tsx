@@ -1,5 +1,6 @@
 import { primaryClass } from "@/components/ui";
 import { amazonUrl, products } from "@/lib/products";
+import { publicPath } from "@/lib/public-path";
 
 export function ProductPicks() {
   return (
@@ -9,7 +10,7 @@ export function ProductPicks() {
           <article key={product.asin} className="min-w-0 rounded-3xl border border-line bg-card p-4 sm:p-5">
             <div className="grid min-w-0 grid-cols-[7.5rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[13rem_minmax(0,1fr)] sm:gap-6">
               <img
-                src={product.image}
+                src={publicPath(product.image)}
                 alt={product.imageAlt}
                 width={800}
                 height={800}

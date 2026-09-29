@@ -9,6 +9,7 @@ import { SiteHeader } from "@/components/site-header";
 import { primaryClass } from "@/components/ui";
 import { hasResume, resumeHref } from "@/lib/draft";
 import { isProfane } from "@/lib/profanity";
+import { publicPath } from "@/lib/public-path";
 
 export function Landing() {
   const { draft, ready, hydrate, reset, update } = useDraft();
@@ -49,7 +50,7 @@ export function Landing() {
       <SiteHeader />
       <div className="mt-8 flex flex-col gap-6 md:mt-14">
         <img
-          src="/hero.webp"
+          src={publicPath("/hero.webp")}
           alt="A young soccer player kicking a ball in front of an Emerald Dragons banner."
           width={1024}
           height={601}
@@ -116,7 +117,7 @@ export function Landing() {
     </main>
     <footer className="mt-16 pb-12">
       <img
-        src="/footer.webp"
+        src={publicPath("/footer.webp")}
         loading="lazy"
         decoding="async"
         alt="Kids playing soccer beside lion, dragon, shark, and eagle team banners."
