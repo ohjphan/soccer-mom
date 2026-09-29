@@ -8,7 +8,7 @@ export const gallery = [
   },
   {
     src: "/gallery/emerald-dragons.webp",
-    alt: "Emerald Dragons banner: a green dragon diving for a soccer ball in a stadium.",
+    alt: "A printed Emerald Dragons banner: a green dragon diving for a soccer ball in a stadium.",
     title: "Emerald Dragons",
     width: 1024,
     height: 614,
@@ -19,13 +19,6 @@ export const gallery = [
     title: "Ice Dragons",
     width: 1024,
     height: 629,
-  },
-  {
-    src: "/gallery/blazing-bumblebees.webp",
-    alt: "Blazing Bumblebees banner: a bee in a yellow jersey with one foot on a soccer ball at sunset.",
-    title: "Blazing Bumblebees",
-    width: 1024,
-    height: 614,
   },
   {
     src: "/gallery/grasshoppers.webp",

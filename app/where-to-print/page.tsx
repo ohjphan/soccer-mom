@@ -8,13 +8,15 @@ export const metadata: Metadata = {
 
 export default function WhereToPrintPage() {
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col px-5 pt-8 pb-16 sm:pt-14">
-      <SiteHeader />
+    <>
+    <SiteHeader />
+    <main className="mx-auto flex w-full max-w-6xl flex-col px-5 pb-16">
       <h1 className="mt-8 font-display text-4xl leading-tight tracking-tight sm:mt-14 sm:text-5xl">Where to print</h1>
       <p className="mt-4 text-lg leading-8 text-muted">
         You print it on your own. These are the banner and stand I recommend.
       </p>
       <ProductPicks />
     </main>
+    </>
   );
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDraft } from "@/components/draft-store";
 import { useNamePlaceholder } from "@/components/name-placeholder";
+import { GalleryPan } from "@/components/gallery-pan";
 import { SiteHeader } from "@/components/site-header";
 import { primaryClass } from "@/components/ui";
 import { hasResume, resumeHref } from "@/lib/draft";
@@ -24,6 +25,7 @@ export function Landing() {
 
   return (
     <>
+      <SiteHeader />
       {showResume ? (
         <aside className="w-full bg-[#141210] text-[#C8FF4A]">
           <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-5 py-2">
@@ -46,8 +48,7 @@ export function Landing() {
           </div>
         </aside>
       ) : null}
-      <main className={`mx-auto flex w-full max-w-6xl flex-col px-5 pb-8 sm:pb-14 ${showResume ? "pt-4 sm:pt-6" : "pt-8 sm:pt-14"}`}>
-      <SiteHeader />
+      <main className="mx-auto flex w-full max-w-6xl flex-col px-5">
       <div className="mt-8 flex flex-col gap-6 md:mt-14">
         <img
           src={publicPath("/hero.webp")}
@@ -105,16 +106,11 @@ export function Landing() {
             <button type="submit" className={`${primaryClass} mt-4 sm:w-auto sm:px-8`} disabled={profane}>
               Design it — it&apos;s free
             </button>
-            <p className="mt-3 text-sm text-muted">
-              Designing it is free. You print it on your own.{" "}
-              <Link href="/where-to-print" className="underline underline-offset-4 hover:text-foreground">
-                I&apos;ll recommend a banner.
-              </Link>
-            </p>
           </form>
         </div>
       </div>
     </main>
+    <GalleryPan />
     <footer className="mt-16 pb-12">
       <img
         src={publicPath("/footer.webp")}
@@ -126,17 +122,16 @@ export function Landing() {
         className="h-auto w-full"
       />
       <p className="mt-8 px-5 text-center text-sm text-muted">
-        <Link href="/share" className="underline underline-offset-4 hover:text-foreground">
-          Share your banner
-        </Link>
-      </p>
-      <p className="mt-4 px-5 text-center text-sm text-muted">
         <a
-          href="https://jessica.is/creating/on-banner-duty/"
+          href="https://jessica.is"
           className="underline underline-offset-4 hover:text-foreground"
         >
-          Jessica Phan
+          Made by Jessica Phan
         </a>
+        <span aria-hidden="true"> · </span>
+        <Link href="/about" className="underline underline-offset-4 hover:text-foreground">
+          About
+        </Link>
       </p>
     </footer>
     </>

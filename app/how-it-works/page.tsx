@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 
 export default function HowItWorksPage() {
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-col px-5 pt-8 pb-16 sm:pt-14">
-      <SiteHeader />
+    <>
+    <SiteHeader />
+    <main className="mx-auto flex w-full max-w-6xl flex-col px-5 pb-16">
       <h1 className="mt-8 font-display text-4xl leading-tight tracking-tight sm:mt-14 sm:text-6xl">How it works</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">
         Five steps. You leave with a banner file you can print yourself.
@@ -21,5 +22,6 @@ export default function HowItWorksPage() {
         Design it — it&apos;s free
       </Link>
     </main>
+    </>
   );
 }

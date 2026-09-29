@@ -117,3 +117,35 @@ body {
   outline: 2px solid var(--foreground);
   outline-offset: 6px;
 }
+
+.gallery-pan-track {
+  animation: gallery-pan 50s linear infinite;
+}
+
+.gallery-pan:hover .gallery-pan-track,
+.gallery-pan:focus-within .gallery-pan-track {
+  animation-play-state: paused;
+}
+
+@keyframes gallery-pan {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-pan {
+    overflow-x: auto;
+  }
+
+  .gallery-pan-track {
+    animation: none;
+  }
+
+  .gallery-pan-track > div:last-child {
+    display: none;
+  }
+}

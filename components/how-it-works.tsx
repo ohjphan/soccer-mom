@@ -37,28 +37,32 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <ol className="mt-10 flex flex-col gap-10">
-      {STEPS.map((step, index) => (
-        <li key={step.label} className="grid grid-cols-[5.5rem_minmax(0,1fr)] items-center gap-4 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-8">
-          <div className="flex h-[5.5rem] items-center justify-center sm:h-28">
-            <step.Art />
-          </div>
-          <div className="min-w-0">
-            <div className="flex min-w-0 items-center gap-3">
+    <ol className="mt-10">
+      {STEPS.map((step, index) => {
+        const last = index === STEPS.length - 1;
+        return (
+          <li key={step.label} className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 sm:gap-6">
+            <div className="flex flex-col items-center">
               <StepNumber n={index + 1} />
-              <h2 className="min-w-0 font-display text-xl leading-tight sm:text-3xl">{step.label}</h2>
+              {last ? null : <div className="mt-2 w-0.5 flex-1 bg-foreground" aria-hidden="true" />}
             </div>
-            <p className="mt-2 max-w-xl text-base leading-7 text-muted sm:text-lg">{step.detail}</p>
-          </div>
-        </li>
-      ))}
+            <div className={`min-w-0 ${last ? "" : "pb-10"}`}>
+              <div className="w-36 sm:w-44">
+                <step.Art />
+              </div>
+              <h2 className="mt-4 min-w-0 font-display text-xl leading-tight sm:text-3xl">{step.label}</h2>
+              <p className="mt-2 max-w-xl text-base leading-7 text-muted sm:text-lg">{step.detail}</p>
+            </div>
+          </li>
+        );
+      })}
     </ol>
   );
 }
 
 function Art({ id, children }: { id: string; children: React.ReactNode }) {
   return (
-    <svg viewBox="0 0 120 88" className="h-[5.5rem] w-full" aria-hidden="true">
+    <svg viewBox="0 0 120 88" className="h-auto w-full" aria-hidden="true">
       <defs>
         <pattern id={`${id}-dots`} width="5" height="5" patternUnits="userSpaceOnUse">
           <circle cx="1.2" cy="1.2" r="1.05" fill={ink} />
