@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4f0e8;
+  --foreground: #1c1917;
+  --muted: #6b645c;
+  --card: #fffdf9;
+  --line: #e5ddd2;
+  --accent: #1b7a45;
+  --accent-hover: #16663a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --font-sans: var(--font-outfit);
+  --font-display: var(--font-bbh-bartle);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+::selection {
+  background: #cfe8d8;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.btn-pop {
+  position: relative;
+  z-index: 0;
+  isolation: isolate;
+  background: transparent;
+  border: 0;
+}
+
+.btn-pop::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  border: 2px solid var(--foreground);
+  box-shadow: 5px 5px 0 var(--foreground);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.btn-pop:hover::before {
+  background: var(--accent-hover);
+  box-shadow: 8px 8px 0 var(--foreground);
+}
+
+.btn-pop:active::before {
+  transform: translate(4px, 4px);
+  box-shadow: 1px 1px 0 var(--foreground);
+}
+
+.btn-pop-primary::before {
+  background: #141210;
+  border-color: #c8ff4a;
+  box-shadow: 5px 5px 0 #141210;
+}
+
+.btn-pop-primary:hover::before {
+  background: #141210;
+  box-shadow: 8px 8px 0 #141210;
+}
+
+.btn-pop-primary:active::before {
+  box-shadow: 1px 1px 0 #141210;
+}
+
+.btn-pop-primary:disabled::before,
+.btn-pop-primary:disabled:hover::before,
+.btn-pop-primary:disabled:active::before {
+  background: #141210;
+  border-color: #c8ff4a;
+  box-shadow: 5px 5px 0 #141210;
+}
+
+.btn-pop-secondary::before {
+  background: var(--card);
+}
+
+.btn-pop-secondary:hover::before {
+  background: var(--card);
+}
+
+.btn-pop:disabled::before,
+.btn-pop:disabled:hover::before,
+.btn-pop:disabled:active::before {
+  transform: none;
+  box-shadow: 5px 5px 0 var(--foreground);
+  background: var(--accent);
+}
+
+.btn-pop-secondary:disabled::before,
+.btn-pop-secondary:disabled:hover::before,
+.btn-pop-secondary:disabled:active::before {
+  background: var(--card);
+}
+
+.btn-pop:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 6px;
+}
