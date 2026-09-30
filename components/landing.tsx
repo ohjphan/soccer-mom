@@ -95,15 +95,16 @@ function HeroBanner({
   );
 }
 
-function HeroPan() {
+function HeroPan({ reverse = false }: { reverse?: boolean }) {
   const items = [...heroSlots, ...heroSpare];
+  const row = reverse ? [...items.slice(items.length / 2), ...items.slice(0, items.length / 2)] : items;
 
   return (
     <div className="hero-pan overflow-hidden md:hidden" aria-hidden="true">
-      <div className="hero-pan-track flex w-max">
+      <div className={`hero-pan-track flex w-max ${reverse ? "hero-pan-track-reverse" : ""}`}>
         {[0, 1].map((setIndex) => (
           <div key={setIndex} className="flex gap-3 pr-3">
-            {items.map((item) => (
+            {row.map((item) => (
               <img
                 key={`${setIndex}-${item.src}`}
                 src={publicPath(item.src)}
@@ -215,11 +216,11 @@ export function Landing() {
           <HeroPan />
           <HeroWall />
           <div className="relative z-10 mx-auto w-full max-w-xl bg-background px-5 py-8 text-center md:px-6 md:py-10">
-          <h1 className="font-display text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
+          <h1 className="font-display text-xl leading-[1.05] tracking-tight text-foreground min-[360px]:text-2xl min-[390px]:text-[26px] sm:text-4xl md:text-6xl">
             Design your soccer team banner
           </h1>
           <p className="mt-5 text-lg leading-8 text-muted">
-            You volunteered for the team banner. <i className="italic">Now what?</i> We&apos;ll do the heavy lifting. You give us the name, the color, and the vibe. We hand you three concepts. You refine one and print it.
+            You volunteered for the team banner. <i className="italic">Now what?</i> Give us the name, the color, and the vibe. We&apos;ll do the lifting.
           </p>
           <form
             className="mx-auto mt-8 flex max-w-md flex-col items-center text-left"
@@ -260,6 +261,7 @@ export function Landing() {
             </button>
           </form>
           </div>
+          <HeroPan reverse />
         </section>
       </main>
       <SiteFooter />

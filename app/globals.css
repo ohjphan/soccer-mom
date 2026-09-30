@@ -42,6 +42,10 @@ body {
   animation: gallery-pan 50s linear infinite;
 }
 
+.hero-pan-track-reverse {
+  animation-direction: reverse;
+}
+
 .gallery-pan:hover .gallery-pan-track,
 .gallery-pan:focus-within .gallery-pan-track {
   animation-play-state: paused;
