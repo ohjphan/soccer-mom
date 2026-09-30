@@ -24,12 +24,13 @@ function banner(src: GalleryItem["src"]): GalleryItem {
 const heroSlots: GalleryItem[] = [
   banner("/gallery/neon-cobras.webp"),
   banner("/gallery/cosmic-comets.webp"),
-  banner("/gallery/magical-unicorns.webp"),
+  banner("/gallery/thunder-sharks.webp"),
   banner("/gallery/midnight-wolves.webp"),
   banner("/gallery/blazing-bumblebees-girls.webp"),
   banner("/gallery/red-turtles.webp"),
 ];
 const heroSpare: GalleryItem[] = [
+  banner("/gallery/magical-unicorns.webp"),
   banner("/gallery/black-magic.webp"),
   banner("/gallery/emerald-dragons.webp"),
   banner("/gallery/ice-dragons.webp"),

@@ -76,4 +76,11 @@ export const gallery = [
     width: 1024,
     height: 614,
   },
+  {
+    src: "/gallery/thunder-sharks.webp",
+    alt: "Thunder Sharks banner: cream arched lettering over a shark fin cutting through the water, on a gray field marked like a soccer pitch.",
+    title: "Thunder Sharks",
+    width: 1024,
+    height: 614,
+  },
 ] as const;

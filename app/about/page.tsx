@@ -6,7 +6,7 @@ import { publicPath } from "@/lib/public-path";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Banner Duty is a soccer banner tool for AYSO parents, made by a soccer mom on banner duty.",
+  description: "Banner Duty is a free soccer banner design tool for parents who ended up in charge of the team banner.",
 };
 
 export default function AboutPage() {
@@ -16,22 +16,47 @@ export default function AboutPage() {
       <main className="mx-auto w-full max-w-6xl px-5 pb-16">
         <div className="mt-8 grid items-start gap-8 md:mt-14 md:grid-cols-2 md:gap-12">
           <div>
-            <h1 className="font-display text-4xl leading-tight tracking-tight sm:text-5xl lg:text-6xl">About</h1>
-            <div className="mt-4 space-y-4 text-lg leading-8">
-              <p>Banner Duty is a soccer banner tool for AYSO parents. A soccer mom made it because she landed on banner duty for her son.</p>
+            <h1 className="font-sans text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+              Every team deserves a banner they&apos;re proud to stand behind.
+            </h1>
+            <div className="mt-6 space-y-4 text-lg leading-8">
+              <p>Banner Duty is a free soccer banner design tool made for parents who somehow ended up in charge of the team banner.</p>
               <p>
-                It is free. A parent enters the team name, picks a color, chooses a vibe, and gets a prompt for a banner the team can feel proud of on the sideline.
+                Hi, I&apos;m Jessica. I&apos;m a mom, product designer, and lifelong design nerd. Banner Duty started when I landed on banner duty for my son&apos;s AYSO soccer team.
               </p>
               <p>
-                This is her second year on banner duty. Somewhere between snacks, carpools, laundry, and the rest of the week, she got serious about it. Passionate, a little intense, and determined that her son&apos;s team banner should feel that way too.
+                He&apos;s been playing soccer since he was five, and every year, I&apos;ve gotten a little more into it. A little passionate. A little intense. Definitely a little competitive.
               </p>
-              <p>When the banner looks sharp, the kids notice. They stand taller. They feel like a real team. Pride and confidence show up before the first whistle.</p>
               <p>
-                Most parents already have a hundred things on their mind. Designing a banner shouldn&apos;t be one more spiral of open tabs and &ldquo;does this look okay?&rdquo; So she built Banner Duty. Enter the team name, pick a color, choose a vibe, and copy a prompt into ChatGPT. From there it&apos;s download, print, and hang it on the sideline.
+                With a background in graphic design, I was equally determined that his team banner should feel like <strong>their</strong> team, not something generic pulled from a template.
               </p>
+              <p>Because the banner is more than decoration.</p>
+              <p>When it looks sharp, the kids notice. They stand a little taller. They feel like a real team. The pride starts before the first whistle.</p>
+              <h2 className="pt-6 font-sans text-2xl font-semibold leading-tight">Then other parents started asking for help.</h2>
+              <p>I happily jumped in.</p>
+              <p>A dragon here. A bumblebee there. A very specific shade of green. A team name that absolutely needed to look epic.</p>
+              <p>I loved it. But I also realized most parents don&apos;t have a designer on speed dial.</p>
+              <p>
+                They already have a hundred things to think about: snacks, cleats, practices, schedules, carpools, uniforms, and who remembered the folding chairs.
+              </p>
+              <p>
+                Designing a banner shouldn&apos;t become another spiral of open tabs and <i>&ldquo;Does this look okay?&rdquo;</i>
+              </p>
+              <p>So I made Banner Duty.</p>
+              <h2 className="pt-6 font-sans text-2xl font-semibold leading-tight">Here&apos;s how it works.</h2>
+              <p>Enter your team name. Pick your team color. Choose the vibe.</p>
+              <p>
+                Banner Duty turns those choices into a thoughtfully designed prompt you can use with ChatGPT or Gemini to create your team&apos;s banner.
+              </p>
+              <p>Explore a few concepts. Pick your favorite. Refine it. Download the artwork, send it to a printer, and hang it proudly on the sideline.</p>
+              <p>No design experience required.</p>
+              <p>And Banner Duty is free.</p>
+              <h2 className="pt-6 font-sans text-2xl font-semibold leading-tight">Your turn.</h2>
+              <p>You&apos;ve already got enough on your soccer-parent to-do list.</p>
+              <p>Let&apos;s make the banner the fun part.</p>
             </div>
-            <Link href="/create" className={`${primaryClass} mt-12 sm:w-auto sm:px-8`}>
-              Design it — it&apos;s free
+            <Link href="/create" className={`${primaryClass} mt-8 sm:w-auto sm:px-8`}>
+              Create your team banner →
             </Link>
           </div>
           <img
