@@ -92,21 +92,24 @@ export function PromptScreen() {
         </li>
         <li>
           <h2 className="font-sans text-2xl font-semibold leading-tight">3. Copy prompt to finalize</h2>
-          <p className="mt-2 text-lg leading-7 text-muted">Paste this into the same chat. It keeps the concept you picked.</p>
+          <p className="mt-2 text-lg leading-7 text-muted">
+            Paste this into the same chat. This preps your selected content to be a 5x3ft print ready PNG.
+          </p>
           {conceptChosen ? (
             <>
               <PromptBlock text={printPrompt} copyLabel="Copy prompt to finalize" compact onCopy={() => void copyFinalize()} />
               <button type="button" className={`${primaryClass} mt-4`} onClick={() => void copyFinalize()}>
                 Copy prompt to finalize
               </button>
-              <p className="mt-3 text-sm text-muted">5 × 3 ft · 6000 × 3600 px · PNG</p>
             </>
           ) : (
             <p className="mt-4 text-base text-muted">Pick 1, 2, or 3 first.</p>
           )}
         </li>
       </ol>
-      <p className="mt-12 text-sm leading-6 text-muted">Before you print, check the name, color, mascot, and edges.</p>
+      <p className="mt-12 text-lg leading-7 text-muted">
+        My banner is ready. I&apos;ve checked the name, color, mascot, and edges.
+      </p>
       <button
         type="button"
         className={`${primaryClass} mt-4`}
@@ -115,7 +118,7 @@ export function PromptScreen() {
           router.push("/print");
         }}
       >
-        My banner is ready
+        Show me where to print
       </button>
       {toast ? (
         <p
@@ -143,7 +146,7 @@ function PromptBlock({
   return (
     <div className="relative mt-4">
       <pre
-        className={`${compact ? "max-h-32" : "max-h-64"} overflow-auto rounded-2xl border border-line bg-card p-4 pr-14 text-sm leading-6 whitespace-pre-wrap text-foreground`}
+        className={`${compact ? "max-h-16" : "max-h-32"} overflow-auto rounded-2xl border border-line bg-card p-4 pr-14 text-sm leading-6 whitespace-pre-wrap text-foreground`}
       >
         {text}
       </pre>

@@ -36,8 +36,7 @@ export function ProductPicks() {
         ))}
       </div>
       <p className="mt-6 text-sm leading-6 text-muted">
-        <span className="font-semibold text-foreground">Affiliate disclosure: </span>
-        Some links are affiliate links. If you purchase through them, I may earn a small commission at no additional cost to you.
+        If you buy through these links, I may earn a small commission. It won&apos;t cost you anything extra.
       </p>
     </>
   );

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { gallery } from "@/lib/gallery";
 import { publicPath } from "@/lib/public-path";
@@ -31,6 +32,7 @@ export default function GalleryPage() {
         ))}
       </div>
     </main>
+    <SiteFooter />
     </>
   );
 }

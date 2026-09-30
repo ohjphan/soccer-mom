@@ -12,9 +12,8 @@ export function ConceptChoiceField({
   onChange: (concept: ConceptChoice) => void;
 }) {
   return (
-    <fieldset>
-      <legend className="font-semibold">Which option did you like?</legend>
-      <div className="mt-3 flex gap-2">
+    <fieldset aria-label="Select concept">
+      <div className="flex gap-2">
         {OPTIONS.map((option) => {
           const pressed = value === option;
           return (

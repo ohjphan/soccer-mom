@@ -137,9 +137,15 @@ function colorRule(draft: Draft): string {
 }
 
 function selectedConcept(concept: ConceptChoice): string {
-  const place = concept === 1 ? "the left banner" : concept === 2 ? "the center banner" : "the right banner";
+  const place =
+    concept === 1
+      ? "the left one when the three sit in a row, or the top one when they are stacked"
+      : concept === 2
+        ? "the center one when the three sit in a row, or the middle one when they are stacked"
+        : "the right one when the three sit in a row, or the bottom one when they are stacked";
   return [
-    "The previous image shows three banner concepts side by side.",
+    "The previous image shows three banner concepts.",
+    "They may sit side by side, or they may be stacked from top to bottom.",
     `Use concept ${concept} only, ${place}.`,
     "Do not use the other two concepts.",
     "That selected concept is the approved design.",

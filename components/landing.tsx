@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDraft } from "@/components/draft-store";
-import { HowItWorks } from "@/components/how-it-works";
 import { useNamePlaceholder } from "@/components/name-placeholder";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { linkType, primaryClass } from "@/components/ui";
 import { hasResume, resumeHref } from "@/lib/draft";
@@ -261,22 +261,8 @@ export function Landing() {
           </form>
           </div>
         </section>
-        <section className="mx-auto w-full max-w-6xl px-5 pt-16">
-          <h2 className="text-center font-display text-2xl leading-tight tracking-tight sm:text-4xl">How it works</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center text-lg leading-8 text-muted">
-            Four steps. You leave with a banner file you can print yourself.
-          </p>
-          <HowItWorks />
-        </section>
       </main>
-    <footer className="mt-16 bg-[#141210] px-5 pt-4 pb-[max(2.5rem,env(safe-area-inset-bottom))] text-center">
-      <a
-        href="https://jessica.is"
-        className={`inline-flex min-h-11 items-center justify-center text-[#C8FF4A] underline decoration-[#C8FF4A]/50 underline-offset-4 hover:decoration-[#C8FF4A] ${linkType}`}
-      >
-        Made by Jessica Phan
-      </a>
-    </footer>
+      <SiteFooter />
     </>
   );
 }
