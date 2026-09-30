@@ -3,7 +3,7 @@ import { PromptScreen } from "@/components/prompt-screen";
 import { RequireBrief } from "@/components/require-brief";
 
 export const metadata: Metadata = {
-  title: "Your brief",
+  title: "Make it in ChatGPT",
 };
 
 export default function PromptPage() {

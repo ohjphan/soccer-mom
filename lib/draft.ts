@@ -4,6 +4,8 @@ export type CreateStep = "team" | "vibe";
 
 export type Roster = "boys" | "girls";
 
+export type ConceptChoice = 1 | 2 | 3;
+
 export type FlowStep = "create" | "prompt" | "guide" | "finalize" | "print";
 
 export type Draft = {
@@ -15,6 +17,7 @@ export type Draft = {
   secondaryCustomHex: string;
   vibes: string[];
   notes: string;
+  concept: ConceptChoice | "";
   createStep: CreateStep;
   furthest: FlowStep;
   updatedAt: number;
@@ -32,6 +35,7 @@ export function emptyDraft(): Draft {
     secondaryCustomHex: "#111214",
     vibes: [],
     notes: "",
+    concept: "",
     createStep: "team",
     furthest: "create",
     updatedAt: 0,
@@ -66,8 +70,7 @@ export function furtherStep(current: FlowStep, next: FlowStep): FlowStep {
 
 export function resumeHref(draft: Draft): string {
   if (!isBriefComplete(draft) || draft.furthest === "create") return "/create";
-  if (draft.furthest === "prompt") return "/prompt";
-  if (draft.furthest === "guide" || draft.furthest === "finalize") return "/finalize";
+  if (draft.furthest === "prompt" || draft.furthest === "guide" || draft.furthest === "finalize") return "/prompt";
   return "/print";
 }
 

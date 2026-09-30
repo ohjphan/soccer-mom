@@ -1,15 +1,14 @@
-import type { Metadata } from "next";
-import { FinalizeScreen } from "@/components/finalize-screen";
-import { RequireBrief } from "@/components/require-brief";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Make it print-ready",
-};
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function FinalizePage() {
-  return (
-    <RequireBrief>
-      <FinalizeScreen />
-    </RequireBrief>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/prompt");
+  }, [router]);
+
+  return null;
 }

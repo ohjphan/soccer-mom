@@ -12,7 +12,7 @@ export default function GalleryPage() {
     <>
     <SiteHeader />
     <main className="mx-auto flex w-full max-w-6xl flex-col px-5 pb-16">
-      <h1 className="mt-8 font-display text-4xl leading-tight tracking-tight sm:mt-14 sm:text-6xl">Gallery</h1>
+      <h1 className="mt-8 font-display text-3xl leading-tight tracking-tight min-[380px]:text-4xl sm:mt-14 sm:text-6xl">Gallery</h1>
       <p className="mt-4 max-w-2xl text-lg leading-8 text-muted">A few banners made with this site.</p>
       <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10">
         {gallery.map((item) => (

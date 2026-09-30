@@ -1,10 +1,14 @@
 import Link from "next/link";
 
+const ctaType = "text-center font-mono text-[12px] font-medium uppercase tracking-[1px]";
+
+export const linkType = "font-mono text-[12px] font-medium uppercase tracking-[1px]";
+
 export const primaryClass =
-  "btn-pop btn-pop-primary inline-flex h-14 w-full cursor-pointer items-center justify-center px-8 text-center text-lg font-bold text-[#C8FF4A] disabled:cursor-not-allowed disabled:opacity-40";
+  `inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full bg-[#141210] px-8 ${ctaType} text-white hover:bg-black disabled:cursor-not-allowed disabled:opacity-40`;
 
 export const secondaryClass =
-  "btn-pop btn-pop-secondary inline-flex h-14 w-full cursor-pointer items-center justify-center px-8 text-center text-lg font-bold text-foreground disabled:cursor-not-allowed disabled:opacity-40";
+  `inline-flex h-14 w-full cursor-pointer items-center justify-center rounded-full border-2 border-[#141210] bg-transparent px-8 ${ctaType} text-[#141210] hover:bg-[#141210]/5 disabled:cursor-not-allowed disabled:opacity-40`;
 
 export function Loading() {
   return (
@@ -25,21 +29,25 @@ export function ColorPickerIcon({ className = "h-6 w-6" }: { className?: string 
   );
 }
 
-export function Mark() {
+export function Mark({ tone = "ink" }: { tone?: "ink" | "paper" }) {
+  const paper = tone === "paper";
+  const ink = paper ? "#f4f0e8" : "#1c1917";
+  const ball = paper ? "#141210" : "#f7f3ea";
+
   return (
-    <Link href="/" className="inline-flex h-11 shrink-0 items-center gap-2.5 font-display text-lg text-foreground">
-      <svg viewBox="-16 -16 32 32" className="h-9 w-9 shrink-0" aria-hidden="true">
-        <circle r="14.5" fill="#f7f3ea" stroke="#1c1917" strokeWidth="1.7" />
-        <path d="M0 -6 L5.6 -1.8 L3.4 5 L-3.4 5 L-5.6 -1.8 Z" fill="#1c1917" />
+    <Link href="/" className={`inline-flex h-11 min-w-0 items-center gap-2 font-display text-sm whitespace-nowrap min-[380px]:text-base sm:gap-2.5 sm:text-lg ${paper ? "text-[#f4f0e8]" : "text-foreground"}`}>
+      <svg viewBox="-16 -16 32 32" className="h-8 w-8 shrink-0 sm:h-9 sm:w-9" aria-hidden="true">
+        <circle r="14.5" fill={ball} stroke={ink} strokeWidth="1.7" />
+        <path d="M0 -6 L5.6 -1.8 L3.4 5 L-3.4 5 L-5.6 -1.8 Z" fill={ink} />
         <path
           d="M0 -6 L0 -14.5 M5.6 -1.8 L13 -6.6 M3.4 5 L10.6 11.6 M-3.4 5 L-10.6 11.6 M-5.6 -1.8 L-13 -6.6"
           fill="none"
-          stroke="#1c1917"
+          stroke={ink}
           strokeWidth="1.35"
           strokeLinecap="round"
         />
       </svg>
-      Banner Duty
+      <span className="truncate">Banner Duty</span>
     </Link>
   );
 }

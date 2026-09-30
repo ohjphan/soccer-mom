@@ -16,11 +16,11 @@ export function ProductPicks() {
                 height={800}
                 loading="lazy"
                 decoding="async"
-                className="aspect-square w-full min-w-0 rounded-2xl bg-background object-contain"
+                className="aspect-square w-full min-w-0 rounded-2xl bg-white object-contain"
               />
               <div className="min-w-0">
                 <p className="text-sm font-semibold tracking-[0.14em] text-muted uppercase">{product.eyebrow}</p>
-                <h2 className="mt-2 font-display text-2xl leading-tight break-words hyphens-auto sm:text-3xl">{product.title}</h2>
+                <h2 className="mt-2 font-sans text-2xl font-semibold leading-tight break-words hyphens-auto sm:text-3xl">{product.title}</h2>
                 <p className="mt-3 leading-7 text-muted">{product.body}</p>
               </div>
             </div>

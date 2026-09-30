@@ -1,6 +1,7 @@
 const ink = "#1c1917";
 const locked = "#c4bbb0";
 const neon = "#C8FF4A";
+const paper = "#f4f0e8";
 
 const RINGS = [
   "M18 5.5 C25 3.2, 32.5 8, 32 16.5 C33.5 25, 27 33.2, 18 32 C10 33.6, 3.5 27, 5 17.5 C3.2 9.5, 10.5 3.4, 18 5.5",
@@ -22,7 +23,7 @@ export function StepNumber({
 }) {
   const stroke = tone === "locked" ? locked : ink;
   const number = tone === "locked" ? locked : ink;
-  const fill = tone === "current" ? neon : "none";
+  const fill = tone === "current" ? neon : paper;
 
   return (
     <span className={`relative flex h-9 w-9 shrink-0 items-center justify-center ${className}`}>

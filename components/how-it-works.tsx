@@ -9,24 +9,19 @@ const tape = "#e4d0a6";
 
 const STEPS = [
   {
-    label: "Your team",
-    detail: "Add the team name, choose boys or girls, and pick the color. A second color is there if you want it.",
-    Art: NameArt,
+    label: "Tell us about your team",
+    detail: "Add the team name, choose boys or girls, and pick the color.",
+    Art: ColorArt,
   },
   {
-    label: "Your vibe",
-    detail: "Choose up to three moods. Add a note if you want something in the design, or left out.",
+    label: "Choose your vibe",
+    detail: "Choose up to three moods. Add additional notes.",
     Art: VibeArt,
   },
   {
-    label: "Three concepts",
-    detail: "Copy the brief into ChatGPT. You get three different banners to compare.",
+    label: "Copy prompt, select, & finalize",
+    detail: "Copy a prompt to generate 3 concepts. Pick one, then copy one more prompt to finalize.",
     Art: ConceptsArt,
-  },
-  {
-    label: "Finalize it",
-    detail: "Pick a favorite. One more prompt gets it ready for a 5 × 3 ft banner.",
-    Art: RefineArt,
   },
   {
     label: "Print it",
@@ -37,25 +32,21 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <ol className="mt-10">
-      {STEPS.map((step, index) => {
-        const last = index === STEPS.length - 1;
-        return (
-          <li key={step.label} className="grid grid-cols-[2.25rem_minmax(0,1fr)] gap-4 sm:gap-6">
-            <div className="flex flex-col items-center">
+    <ol className="mt-8 flex flex-col gap-8 md:grid md:grid-cols-4 md:gap-4">
+      {STEPS.map((step, index) => (
+        <li key={step.label} className="flex items-start gap-4 md:block md:min-w-0">
+          <div className="w-24 shrink-0 md:w-28">
+            <step.Art />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2 md:mt-3">
               <StepNumber n={index + 1} />
-              {last ? null : <div className="mt-2 w-0.5 flex-1 bg-foreground" aria-hidden="true" />}
+              <h3 className="min-w-0 font-sans text-base font-semibold leading-tight">{step.label}</h3>
             </div>
-            <div className={`min-w-0 ${last ? "" : "pb-10"}`}>
-              <div className="w-36 sm:w-44">
-                <step.Art />
-              </div>
-              <h2 className="mt-4 min-w-0 font-display text-xl leading-tight sm:text-3xl">{step.label}</h2>
-              <p className="mt-2 max-w-xl text-base leading-7 text-muted sm:text-lg">{step.detail}</p>
-            </div>
-          </li>
-        );
-      })}
+            <p className="mt-2 text-sm leading-5 text-muted">{step.detail}</p>
+          </div>
+        </li>
+      ))}
     </ol>
   );
 }
@@ -82,27 +73,26 @@ function Art({ id, children }: { id: string; children: React.ReactNode }) {
   );
 }
 
-function NameArt() {
-  const id = "name";
-  const banner = "M18 26 L32 21 L50 26 L70 19 L92 24 L104 22 L106 36 L102 48 L107 58 L92 64 L70 58 L48 66 L30 59 L16 63 L12 46 L16 34 Z";
+function ColorArt() {
+  const id = "color";
+  const colors = ["#1F8A4C", "#1D4ED8", "#DC2626", "#EA580C", "#EAB308", "#7C3AED", "#171717", "#F7F7F5"];
+  const chip = "M2 5 L7 1 L14 4 L20 1 L23 7 L21 14 L23 21 L16 25 L9 22 L3 26 L0 17 L1 8 Z";
   return (
     <Art id={id}>
-      <Sticker d={banner} />
-      <g clipPath={`url(#${id}-clip)`}>
-        <path d={banner} fill={teal} />
-        <path d="M0 50 H120 V80 H0 Z" fill={neon} />
-        <rect x="72" y="22" width="36" height="40" fill={`url(#${id}-dots)`} opacity="0.35" />
-        <rect width="120" height="88" filter={`url(#${id}-grain)`} />
-      </g>
-      <path d={banner} fill="none" stroke={paper} strokeWidth="2" strokeLinejoin="round" />
-      <Mark d="M32 38 C46 34, 60 41, 78 36" color={paper} width={3.4} />
-      <Mark d="M32 48 C42 46, 50 51, 62 47" color={paper} width={2.2} />
-      <Tape x={34} y={20} rotate={-16} />
-      <Slash d="M72 72 C84 66, 96 74, 110 67" />
-      <Splatter cx={10} cy={74} />
-      <clipPath id={`${id}-clip`}>
-        <path d={banner} />
-      </clipPath>
+      {colors.map((fill, index) => {
+        const x = 4 + (index % 4) * 29;
+        const y = index < 4 ? 6 : 48;
+        const tilt = index % 2 === 0 ? -4 : 3;
+        return (
+          <g key={fill} transform={`translate(${x} ${y}) rotate(${tilt} 11 13)`}>
+            <path d={chip} fill={ink} transform="translate(1.3 1.6)" />
+            <path d={chip} fill={fill} stroke={ink} strokeWidth="1.25" strokeLinejoin="round" />
+          </g>
+        );
+      })}
+      <Mark d="M2 18 C4 6, 16 2, 30 8 C36 16, 32 34, 20 40 C8 44, 0 32, 4 20" color={ink} width={1.6} />
+      <Slash d="M96 78 C104 74, 110 80, 116 76" width={3.5} />
+      <Splatter cx={112} cy={8} />
     </Art>
   );
 }
@@ -160,27 +150,6 @@ function ConceptsArt() {
       <Tape x={58} y={30} rotate={-8} />
       <Slash d="M8 78 C20 72, 28 80, 40 74" width={4} />
       <Splatter cx={108} cy={16} />
-    </Art>
-  );
-}
-
-function RefineArt() {
-  const id = "refine";
-  return (
-    <Art id={id}>
-      <Slash d="M14 64 C26 52, 18 74, 36 60" width={5} />
-      <g transform="rotate(-34 62 44)">
-        <path d="M50 52 L70 50 L60 74 Z" fill={ink} transform="translate(1.4 1.6)" />
-        <path d="M52 16 L68 14 L70 24 L50 26 Z" fill="#e7a3a3" stroke={ink} strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M50 26 L70 24 L72 50 L48 53 Z" fill="#efd08a" stroke={ink} strokeWidth="1.5" strokeLinejoin="round" />
-        <path d="M52 24 L68 22 L69 28 L51 30 Z" fill="#c98484" />
-        <path d="M48 53 L72 50 L60 74 Z" fill={ink} />
-        <path d="M52 52 L68 50 L60 64 Z" fill={paper} />
-        <path d="M56 62 L64 60 L60 74 Z" fill={ink} />
-        <Mark d="M59 32 L60 46" color="#f6e7b4" width={1.5} />
-      </g>
-      <Splatter cx={96} cy={22} />
-      <Splatter cx={18} cy={24} />
     </Art>
   );
 }

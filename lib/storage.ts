@@ -1,10 +1,14 @@
 import { isSwatchId } from "@/lib/colors";
-import { emptyDraft, type Draft, type FlowStep } from "@/lib/draft";
+import { emptyDraft, type ConceptChoice, type Draft, type FlowStep } from "@/lib/draft";
 import { isVibeId } from "@/lib/vibes";
 
 export const DRAFT_KEY = "team-banner-draft";
 
 const FLOW_STEPS = new Set<FlowStep>(["create", "prompt", "guide", "finalize", "print"]);
+
+function isConceptChoice(value: unknown): value is ConceptChoice {
+  return value === 1 || value === 2 || value === 3;
+}
 
 function isHex(value: string): boolean {
   return /^#[0-9a-fA-F]{6}$/.test(value);
@@ -36,6 +40,7 @@ export function normalizeDraft(value: Partial<Draft> | null | undefined): Draft 
         : base.secondaryCustomHex,
     vibes: Array.isArray(value.vibes) ? value.vibes.filter(isVibeId).slice(0, 3) : [],
     notes: typeof value.notes === "string" ? value.notes.slice(0, 400) : "",
+    concept: isConceptChoice(value.concept) ? value.concept : "",
     createStep: value.createStep === "vibe" ? "vibe" : "team",
     furthest: FLOW_STEPS.has(value.furthest as FlowStep) ? (value.furthest as FlowStep) : "create",
     updatedAt: typeof value.updatedAt === "number" ? value.updatedAt : 0,

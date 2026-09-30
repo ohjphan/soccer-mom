@@ -3,16 +3,15 @@
 import { useEffect, useRef, useState, type Ref } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Mark } from "@/components/ui";
+import { linkType, Mark, primaryClass } from "@/components/ui";
 
 const LINKS = [
   { href: "/gallery", label: "Gallery" },
-  { href: "/how-it-works", label: "How it works" },
   { href: "/where-to-print", label: "Where to print" },
+  { href: "/about", label: "About" },
 ];
 
-const createClass =
-  "btn-pop btn-pop-primary inline-flex h-14 w-full cursor-pointer items-center justify-center px-8 text-center text-lg font-bold text-[#C8FF4A] sm:h-11 sm:w-auto sm:px-5 sm:text-base";
+const createClass = `${primaryClass} sm:h-11 sm:w-auto sm:px-5`;
 
 function currentPath(pathname: string, href: string) {
   return pathname === href || pathname === `${href}/`;
@@ -30,9 +29,9 @@ function HeaderBar({
   const pathname = usePathname();
 
   return (
-    <div className="relative z-40 mx-auto flex w-full max-w-6xl items-center justify-between gap-5 px-5 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3">
-      <Mark />
-      <nav aria-label="Site" className="hidden items-center gap-x-5 sm:flex">
+    <div className="relative z-40 mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 min-[380px]:gap-5 min-[380px]:px-5">
+      <Mark tone={open ? "paper" : "ink"} />
+      <nav aria-label="Site" className="hidden items-center gap-x-5 md:flex">
         {LINKS.map((link) => {
           const current = currentPath(pathname, link.href);
           return (
@@ -40,7 +39,7 @@ function HeaderBar({
               key={link.href}
               href={link.href}
               aria-current={current ? "page" : undefined}
-              className={`inline-flex min-h-11 items-center text-base font-semibold underline-offset-4 hover:underline ${
+              className={`inline-flex min-h-11 items-center underline-offset-4 hover:underline ${linkType} ${
                 current ? "underline" : ""
               }`}
             >
@@ -55,7 +54,7 @@ function HeaderBar({
       <button
         ref={buttonRef}
         type="button"
-        className="inline-flex h-11 w-11 items-center justify-center border-2 border-foreground sm:hidden"
+        className={`inline-flex h-11 w-11 shrink-0 items-center justify-center border-2 md:hidden ${open ? "border-[#f4f0e8] text-[#f4f0e8]" : "border-foreground"}`}
         aria-expanded={open}
         aria-controls="site-menu"
         aria-label={open ? "Close menu" : "Menu"}
@@ -78,8 +77,8 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
   }, []);
 
   return (
-    <div id="site-menu" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-30 bg-background sm:hidden">
-      <nav aria-label="Site" className="flex h-full flex-col justify-center gap-2 px-8 pt-24 pb-12">
+    <div id="site-menu" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-30 bg-[#141210] text-[#f4f0e8] md:hidden">
+      <nav aria-label="Site" className="flex h-full flex-col justify-center gap-4 px-5 pt-24 pb-12">
         {LINKS.map((link, index) => {
           const current = currentPath(pathname, link.href);
           return (
@@ -89,13 +88,13 @@ function MobileMenu({ onClose }: { onClose: () => void }) {
               href={link.href}
               aria-current={current ? "page" : undefined}
               onClick={onClose}
-              className={`font-display text-4xl leading-tight underline-offset-4 ${current ? "underline" : ""}`}
+              className={`flex min-h-11 items-center font-display text-3xl leading-none tracking-tight min-[380px]:text-4xl ${current ? "underline decoration-[#f4f0e8] underline-offset-8" : ""}`}
             >
               {link.label}
             </Link>
           );
         })}
-        <Link href="/create" onClick={onClose} className={`${createClass} mt-8`}>
+        <Link href="/create" onClick={onClose} className="mt-2 flex min-h-11 items-center font-display text-3xl leading-none tracking-tight min-[380px]:text-4xl">
           Create
         </Link>
       </nav>
@@ -134,7 +133,7 @@ export function SiteHeader() {
       <div aria-hidden="true" inert className="invisible">
         <HeaderBar open={false} onToggle={() => {}} />
       </div>
-      <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-background">
+      <header className={`fixed inset-x-0 top-0 z-40 border-b ${open ? "border-[#141210] bg-[#141210]" : "border-line bg-background"}`}>
         <HeaderBar open={open} onToggle={() => setOpen((value) => !value)} buttonRef={buttonRef} />
         {open ? <MobileMenu onClose={() => setOpen(false)} /> : null}
       </header>

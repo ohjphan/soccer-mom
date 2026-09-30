@@ -1,16 +1,177 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useDraft } from "@/components/draft-store";
+import { HowItWorks } from "@/components/how-it-works";
 import { useNamePlaceholder } from "@/components/name-placeholder";
-import { GalleryPan } from "@/components/gallery-pan";
 import { SiteHeader } from "@/components/site-header";
-import { primaryClass } from "@/components/ui";
+import { linkType, primaryClass } from "@/components/ui";
 import { hasResume, resumeHref } from "@/lib/draft";
+import { gallery } from "@/lib/gallery";
 import { isProfane } from "@/lib/profanity";
 import { publicPath } from "@/lib/public-path";
+
+type GalleryItem = (typeof gallery)[number];
+
+function banner(src: GalleryItem["src"]): GalleryItem {
+  const item = gallery.find((entry) => entry.src === src);
+  if (!item) throw new Error(`Missing gallery image ${src}`);
+  return item;
+}
+
+const heroSlots: GalleryItem[] = [
+  banner("/gallery/neon-cobras.webp"),
+  banner("/gallery/cosmic-comets.webp"),
+  banner("/gallery/magical-unicorns.webp"),
+  banner("/gallery/midnight-wolves.webp"),
+  banner("/gallery/blazing-bumblebees-girls.webp"),
+  banner("/gallery/red-turtles.webp"),
+];
+const heroSpare: GalleryItem[] = [
+  banner("/gallery/black-magic.webp"),
+  banner("/gallery/emerald-dragons.webp"),
+  banner("/gallery/ice-dragons.webp"),
+  banner("/gallery/little-lions.webp"),
+  banner("/gallery/grasshoppers.webp"),
+];
+
+const floatTiming = [
+  { delay: "0s", duration: "7.2s" },
+  { delay: "1.4s", duration: "8.4s" },
+  { delay: "2.6s", duration: "6.6s" },
+  { delay: "0.7s", duration: "9s" },
+  { delay: "2s", duration: "7.6s" },
+  { delay: "3.1s", duration: "8s" },
+];
+
+function HeroBanner({
+  item,
+  bleed,
+  delay,
+  duration,
+}: {
+  item: GalleryItem;
+  bleed: string;
+  delay: string;
+  duration: string;
+}) {
+  const [shown, setShown] = useState(item);
+  const [outgoing, setOutgoing] = useState<GalleryItem | null>(null);
+  const shownRef = useRef(item);
+
+  useEffect(() => {
+    if (item.src === shownRef.current.src) return;
+    setOutgoing(shownRef.current);
+    shownRef.current = item;
+    setShown(item);
+    const timeout = window.setTimeout(() => setOutgoing(null), 900);
+    return () => window.clearTimeout(timeout);
+  }, [item]);
+
+  return (
+    <span className={`block h-[28%] shrink-0 ${bleed}`}>
+      <span className="hero-float relative block h-full" style={{ animationDelay: delay, animationDuration: duration }}>
+        {outgoing ? (
+          <img
+            src={publicPath(outgoing.src)}
+            alt=""
+            width={outgoing.width}
+            height={outgoing.height}
+            className="hero-banner-out absolute inset-0 h-full w-full object-cover"
+          />
+        ) : null}
+        <img
+          src={publicPath(shown.src)}
+          alt=""
+          width={shown.width}
+          height={shown.height}
+          className={`h-full w-auto max-w-none ${outgoing ? "hero-banner-in" : ""}`}
+        />
+      </span>
+    </span>
+  );
+}
+
+function HeroPan() {
+  const items = [...heroSlots, ...heroSpare];
+
+  return (
+    <div className="hero-pan overflow-hidden md:hidden" aria-hidden="true">
+      <div className="hero-pan-track flex w-max">
+        {[0, 1].map((setIndex) => (
+          <div key={setIndex} className="flex gap-3 pr-3">
+            {items.map((item) => (
+              <img
+                key={`${setIndex}-${item.src}`}
+                src={publicPath(item.src)}
+                alt=""
+                width={item.width}
+                height={item.height}
+                className="h-36 w-auto max-w-none sm:h-44"
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HeroWall() {
+  const [slots, setSlots] = useState(heroSlots);
+  const spare = useRef(heroSpare);
+  const nextSlot = useRef(0);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const interval = window.setInterval(() => {
+      const incoming = spare.current[0];
+      if (!incoming) return;
+      const index = nextSlot.current;
+      nextSlot.current = (index + 1) % slots.length;
+      setSlots((current) => {
+        const outgoing = current[index];
+        spare.current = [...spare.current.slice(1), outgoing];
+        const next = current.slice();
+        next[index] = incoming;
+        return next;
+      });
+    }, 6000);
+    return () => window.clearInterval(interval);
+  }, [slots.length]);
+
+  const left = slots.slice(0, 3);
+  const right = slots.slice(3);
+
+  return (
+    <>
+      <div className="pointer-events-none absolute inset-y-0 left-0 hidden w-[46%] flex-col items-start justify-center gap-4 py-5 md:flex md:w-[36%]" aria-hidden="true">
+        {left.map((item, index) => (
+          <HeroBanner
+            key={index}
+            item={item}
+            bleed="-translate-x-[12%] sm:-translate-x-[18%]"
+            delay={floatTiming[index].delay}
+            duration={floatTiming[index].duration}
+          />
+        ))}
+      </div>
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] flex-col items-end justify-center gap-4 py-5 md:flex md:w-[36%]" aria-hidden="true">
+        {right.map((item, index) => (
+          <HeroBanner
+            key={index + 3}
+            item={item}
+            bleed="translate-x-[12%] sm:translate-x-[18%]"
+            delay={floatTiming[index + 3].delay}
+            duration={floatTiming[index + 3].duration}
+          />
+        ))}
+      </div>
+    </>
+  );
+}
 
 export function Landing() {
   const { draft, ready, hydrate, reset, update } = useDraft();
@@ -29,15 +190,15 @@ export function Landing() {
       {showResume ? (
         <aside className="w-full bg-[#141210] text-[#C8FF4A]">
           <div className="mx-auto flex w-full max-w-6xl items-center gap-3 px-5 py-2">
-            <p className="min-w-0 flex-1 text-sm font-semibold leading-tight">
+            <p className="min-w-0 flex-1 text-sm font-semibold leading-tight text-white">
               Continue your {draft.teamName.trim()} banner?
             </p>
-            <Link href={resumeHref(draft)} className="shrink-0 text-sm font-bold underline decoration-[#C8FF4A]/50 underline-offset-4 hover:decoration-[#C8FF4A]">
+            <Link href={resumeHref(draft)} className={`inline-flex min-h-11 shrink-0 items-center underline decoration-[#C8FF4A]/50 underline-offset-4 hover:decoration-[#C8FF4A] ${linkType}`}>
               Continue
             </Link>
             <button
               type="button"
-              className="shrink-0 text-sm font-semibold underline decoration-[#C8FF4A]/50 underline-offset-4 hover:decoration-[#C8FF4A]"
+              className={`inline-flex min-h-11 shrink-0 items-center underline decoration-[#C8FF4A]/50 underline-offset-4 hover:decoration-[#C8FF4A] ${linkType}`}
               onClick={() => {
                 reset();
                 router.push("/create");
@@ -48,29 +209,19 @@ export function Landing() {
           </div>
         </aside>
       ) : null}
-      <main className="mx-auto flex w-full max-w-6xl flex-col px-5">
-      <div className="mt-8 flex flex-col gap-6 md:mt-14">
-        <img
-          src={publicPath("/hero.webp")}
-          alt="A young soccer player kicking a ball in front of an Emerald Dragons banner."
-          width={1024}
-          height={601}
-          fetchPriority="high"
-          decoding="async"
-          className="h-auto w-full"
-        />
-        <div>
-          <h1 className="font-display text-4xl leading-[1.05] tracking-tight text-foreground sm:text-6xl">
-            Design your soccer team banner.
+      <main>
+        <section className="relative mt-4 md:flex md:min-h-[44rem] md:items-center md:overflow-hidden">
+          <HeroPan />
+          <HeroWall />
+          <div className="relative z-10 mx-auto w-full max-w-xl bg-background px-5 py-8 text-center md:px-6 md:py-10">
+          <h1 className="font-display text-4xl leading-[1.05] tracking-tight text-foreground md:text-6xl">
+            Design your soccer team banner
           </h1>
-          <div className="mt-5 space-y-4 text-lg leading-8 text-muted">
-            <p>
-              Pack the snacks, fill the bottles, drive to practice, do the laundry, work your 9-to-5, and remember the two other activities you signed them up for. And yet, you still said yes to the team banner.
-            </p>
-            <p>We&apos;ll make this part easy. You give us the name, the color, and the vibe. We hand you three concepts. You refine one and print it.</p>
-          </div>
+          <p className="mt-5 text-lg leading-8 text-muted">
+            You volunteered for the team banner. <i className="italic">Now what?</i> We&apos;ll do the heavy lifting. You give us the name, the color, and the vibe. We hand you three concepts. You refine one and print it.
+          </p>
           <form
-            className="mt-8"
+            className="mx-auto mt-8 flex max-w-md flex-col items-center text-left"
             onSubmit={(event) => {
               event.preventDefault();
               const name = draft.teamName.trim();
@@ -84,7 +235,7 @@ export function Landing() {
               router.push("/create");
             }}
           >
-            <label htmlFor="hero-team-name" className="mb-3 block font-semibold">
+            <label htmlFor="hero-team-name" className="mb-3 block w-full text-center font-semibold">
               Team name
             </label>
             <input
@@ -96,43 +247,34 @@ export function Landing() {
               autoComplete="off"
               aria-invalid={profane}
               aria-describedby={profane ? "hero-team-name-error" : undefined}
-              className="h-14 w-full border-2 border-foreground bg-card px-4 text-lg text-foreground outline-none placeholder:text-muted/70"
+              className="h-14 w-full border-2 border-foreground bg-card px-4 text-center text-lg text-foreground outline-none placeholder:text-muted/70"
             />
             {profane ? (
-              <p id="hero-team-name-error" className="mt-4 text-base font-medium text-foreground" role="alert">
+              <p id="hero-team-name-error" className="mt-4 text-center text-base font-medium text-foreground" role="alert">
                 Choose a team name you would put on a youth banner.
               </p>
             ) : null}
-            <button type="submit" className={`${primaryClass} mt-4 sm:w-auto sm:px-8`} disabled={profane}>
+            <button type="submit" className={`${primaryClass} mx-auto mt-4 md:w-auto md:px-8`} disabled={profane}>
               Design it — it&apos;s free
             </button>
           </form>
-        </div>
-      </div>
-    </main>
-    <GalleryPan />
-    <footer className="mt-16 pb-12">
-      <img
-        src={publicPath("/footer.webp")}
-        loading="lazy"
-        decoding="async"
-        alt="Kids playing soccer beside lion, dragon, shark, and eagle team banners."
-        width={1024}
-        height={455}
-        className="h-auto w-full"
-      />
-      <p className="mt-8 px-5 text-center text-sm text-muted">
-        <a
-          href="https://jessica.is"
-          className="underline underline-offset-4 hover:text-foreground"
-        >
-          Made by Jessica Phan
-        </a>
-        <span aria-hidden="true"> · </span>
-        <Link href="/about" className="underline underline-offset-4 hover:text-foreground">
-          About
-        </Link>
-      </p>
+          </div>
+        </section>
+        <section className="mx-auto w-full max-w-6xl px-5 pt-16">
+          <h2 className="text-center font-display text-2xl leading-tight tracking-tight sm:text-4xl">How it works</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-lg leading-8 text-muted">
+            Four steps. You leave with a banner file you can print yourself.
+          </p>
+          <HowItWorks />
+        </section>
+      </main>
+    <footer className="mt-16 bg-[#141210] px-5 pt-4 pb-[max(2.5rem,env(safe-area-inset-bottom))] text-center">
+      <a
+        href="https://jessica.is"
+        className={`inline-flex min-h-11 items-center justify-center text-[#C8FF4A] underline decoration-[#C8FF4A]/50 underline-offset-4 hover:decoration-[#C8FF4A] ${linkType}`}
+      >
+        Made by Jessica Phan
+      </a>
     </footer>
     </>
   );

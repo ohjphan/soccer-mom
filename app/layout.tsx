@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BBH_Bartle, Outfit } from "next/font/google";
+import { BBH_Bartle, DM_Mono, Outfit } from "next/font/google";
 import { DraftProvider } from "@/components/draft-store";
 import "./globals.css";
 
@@ -14,6 +14,12 @@ const bbhBartle = BBH_Bartle({
   weight: "400",
 });
 
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
+  subsets: ["latin"],
+  weight: "500",
+});
+
 export const metadata: Metadata = {
   title: {
     default: "Banner Duty",
@@ -24,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${outfit.variable} ${bbhBartle.variable} h-full antialiased`}>
+    <html lang="en" className={`${outfit.variable} ${bbhBartle.variable} ${dmMono.variable} min-h-full antialiased`}>
       <body className="min-h-full bg-background font-sans text-foreground">
         <DraftProvider>{children}</DraftProvider>
       </body>

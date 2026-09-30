@@ -50,7 +50,7 @@ function notesPlaceholder(draft: Draft): string {
   );
   const vibes = vibesByIds(draft.vibes);
   const vibeText = joinList(vibes.map((vibe) => vibe.label.toLowerCase()));
-  const tail = vibes[0] ? VIBE_TAILS[vibes[0].id] : "Add a detail, or something to leave out.";
+  const tail = (vibes[0] && VIBE_TAILS[vibes[0].id]) || "Add a detail, or something to leave out.";
 
   if (color && vibeText) return `Make the ${name} ${joinList([color, ...vibes.map((vibe) => vibe.label.toLowerCase())])}. ${tail}`;
   if (color) return `Make the ${name} ${color}. Add a detail, or something to leave out.`;
@@ -76,8 +76,8 @@ function ColorChoices({
   const picked = colorId !== "";
   const hex = picked ? colorHex({ colorId, customHex }) : customHex;
   const secondary = size === "secondary";
-  const swatchClass = secondary ? "h-4 w-4 sm:h-5 sm:w-5" : "h-12 w-12 sm:h-14 sm:w-14";
-  const hitClass = secondary ? "h-8 w-8 sm:h-9 sm:w-9" : swatchClass;
+  const swatchClass = secondary ? "h-5 w-5" : "h-12 w-12 sm:h-14 sm:w-14";
+  const hitClass = secondary ? "h-11 w-11" : swatchClass;
 
   return (
     <div className={`flex flex-wrap ${secondary ? "mt-4 gap-1 sm:gap-1.5" : "mt-6 gap-2.5 sm:gap-2"}`}>
@@ -256,7 +256,7 @@ export function CreateFlow() {
             aria-expanded={secondaryOpen}
             aria-controls="secondary-colors"
             onClick={() => setSecondaryOpen((open) => !open)}
-            className="mt-8 inline-flex items-center gap-2 font-semibold"
+            className="mt-8 inline-flex min-h-11 items-center gap-2 font-semibold"
           >
             {draft.secondaryColorId && !secondaryOpen ? (
               <span
@@ -326,7 +326,6 @@ export function CreateFlow() {
                 type="button"
                 aria-pressed={pressed}
                 aria-label={vibe.label}
-                title={vibe.meaning}
                 disabled={!pressed && atMax}
                 onClick={() => update((current) => ({ vibes: toggleVibe(current.vibes, vibe.id) }))}
                 className={`inline-flex min-h-12 items-center gap-2 rounded-full border px-4 text-base font-semibold ${
@@ -335,7 +334,6 @@ export function CreateFlow() {
                     : "border-line bg-card text-foreground disabled:opacity-40"
                 }`}
               >
-                <span aria-hidden="true">{vibe.emoji}</span>
                 {vibe.label}
               </button>
             );
