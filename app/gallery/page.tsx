@@ -33,7 +33,10 @@ export default function GalleryPage() {
               decoding="async"
               className="h-auto w-full"
             />
-            <figcaption className="mt-3 text-base font-semibold">{item.title}</figcaption>
+            <figcaption className="mt-3">
+              <p className="text-base font-semibold">{item.title}</p>
+              <p className="mt-1 text-base leading-6 text-muted">{item.summary}</p>
+            </figcaption>
           </figure>
         ))}
       </div>
