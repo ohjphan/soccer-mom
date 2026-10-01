@@ -17,6 +17,8 @@ export type Draft = {
   secondaryCustomHex: string;
   vibes: string[];
   notes: string;
+  includeNames: boolean;
+  playerNames: string;
   concept: ConceptChoice | "";
   createStep: CreateStep;
   furthest: FlowStep;
@@ -35,6 +37,8 @@ export function emptyDraft(): Draft {
     secondaryCustomHex: "#111214",
     vibes: [],
     notes: "",
+    includeNames: false,
+    playerNames: "",
     concept: "",
     createStep: "team",
     furthest: "create",
@@ -50,12 +54,36 @@ export function hasRoster(draft: Pick<Draft, "roster">): boolean {
   return draft.roster === "boys" || draft.roster === "girls";
 }
 
+export const PLAYER_NAME_LIMIT = 15;
+
+export function parsedPlayerNames(value: string): string[] {
+  return value
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean)
+    .slice(0, PLAYER_NAME_LIMIT);
+}
+
+export function playerNameCount(value: string): number {
+  return value
+    .split(",")
+    .map((name) => name.trim())
+    .filter(Boolean).length;
+}
+
+export function hasPlayerNames(draft: Pick<Draft, "includeNames" | "playerNames">): boolean {
+  if (!draft.includeNames) return true;
+  const count = playerNameCount(draft.playerNames);
+  return count > 0 && count <= PLAYER_NAME_LIMIT;
+}
+
 export function isBriefComplete(draft: Draft): boolean {
   return (
     draft.teamName.trim().length > 0 &&
     !isProfane(draft.teamName) &&
     hasRoster(draft) &&
     hasColor(draft) &&
+    hasPlayerNames(draft) &&
     draft.vibes.length > 0
   );
 }

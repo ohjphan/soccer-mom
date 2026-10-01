@@ -30,7 +30,7 @@ function HeaderBar({
 
   return (
     <div className="relative z-40 mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 min-[380px]:gap-5 min-[380px]:px-5">
-      <Mark tone={open ? "paper" : "ink"} />
+      <Mark tone="ink" />
       <nav aria-label="Site" className="hidden items-center gap-x-5 md:flex">
         {LINKS.map((link) => {
           const current = currentPath(pathname, link.href);
@@ -54,7 +54,7 @@ function HeaderBar({
       <button
         ref={buttonRef}
         type="button"
-        className={`inline-flex h-11 w-11 shrink-0 items-center justify-center border-2 md:hidden ${open ? "border-[#f4f0e8] text-[#f4f0e8]" : "border-foreground"}`}
+        className="inline-flex h-11 w-11 shrink-0 items-center justify-center border-2 border-foreground text-foreground md:hidden"
         aria-expanded={open}
         aria-controls="site-menu"
         aria-label={open ? "Close menu" : "Menu"}
@@ -69,35 +69,24 @@ function HeaderBar({
 }
 
 function MobileMenu({ onClose }: { onClose: () => void }) {
-  const pathname = usePathname();
-  const firstLink = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    firstLink.current?.focus();
-  }, []);
+  const linkClass = "flex min-h-11 items-center font-display text-3xl leading-none tracking-tight outline-none min-[380px]:text-4xl focus:outline-none focus-visible:outline-none";
 
   return (
-    <div id="site-menu" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-30 bg-[#141210] text-[#f4f0e8] md:hidden">
-      <nav aria-label="Site" className="flex h-full flex-col justify-center gap-4 px-5 pt-24 pb-12">
-        {LINKS.map((link, index) => {
-          const current = currentPath(pathname, link.href);
-          return (
-            <Link
-              key={link.href}
-              ref={index === 0 ? firstLink : undefined}
-              href={link.href}
-              aria-current={current ? "page" : undefined}
-              onClick={onClose}
-              className={`flex min-h-11 items-center font-display text-3xl leading-none tracking-tight min-[380px]:text-4xl ${current ? "underline decoration-[#f4f0e8] underline-offset-8" : ""}`}
-            >
-              {link.label}
-            </Link>
-          );
-        })}
-        <Link href="/create" onClick={onClose} className="mt-2 flex min-h-11 items-center font-display text-3xl leading-none tracking-tight min-[380px]:text-4xl">
-          Create
-        </Link>
+    <div id="site-menu" role="dialog" aria-modal="true" aria-label="Menu" className="fixed inset-0 z-30 bg-[#c8ff4a] text-[#141210] md:hidden">
+      <nav aria-label="Site" className="flex h-full flex-col justify-center gap-4 px-5 pt-24 pb-32">
+        {LINKS.map((link) => (
+          <Link key={link.href} href={link.href} onClick={onClose} className={linkClass}>
+            {link.label}
+          </Link>
+        ))}
       </nav>
+      <Link
+        href="/create"
+        onClick={onClose}
+        className={`absolute inset-x-5 bottom-[max(1.25rem,env(safe-area-inset-bottom))] flex h-14 items-center justify-center rounded-full bg-[#141210] text-white outline-none focus:outline-none focus-visible:outline-none ${linkType}`}
+      >
+        Create
+      </Link>
     </div>
   );
 }
@@ -133,7 +122,7 @@ export function SiteHeader() {
       <div aria-hidden="true" inert className="invisible">
         <HeaderBar open={false} onToggle={() => {}} />
       </div>
-      <header className={`fixed inset-x-0 top-0 z-40 border-b ${open ? "border-[#141210] bg-[#141210]" : "border-line bg-background"}`}>
+      <header className={`fixed inset-x-0 top-0 z-40 border-b ${open ? "border-[#c8ff4a] bg-[#c8ff4a]" : "border-line bg-background"}`}>
         <HeaderBar open={open} onToggle={() => setOpen((value) => !value)} buttonRef={buttonRef} />
         {open ? <MobileMenu onClose={() => setOpen(false)} /> : null}
       </header>

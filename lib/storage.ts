@@ -40,6 +40,8 @@ export function normalizeDraft(value: Partial<Draft> | null | undefined): Draft 
         : base.secondaryCustomHex,
     vibes: Array.isArray(value.vibes) ? value.vibes.filter(isVibeId).slice(0, 3) : [],
     notes: typeof value.notes === "string" ? value.notes.slice(0, 400) : "",
+    includeNames: value.includeNames === true,
+    playerNames: typeof value.playerNames === "string" ? value.playerNames.slice(0, 800) : "",
     concept: isConceptChoice(value.concept) ? value.concept : "",
     createStep: value.createStep === "vibe" ? "vibe" : "team",
     furthest: FLOW_STEPS.has(value.furthest as FlowStep) ? (value.furthest as FlowStep) : "create",

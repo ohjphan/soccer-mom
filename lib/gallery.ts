@@ -1,5 +1,19 @@
 export const gallery = [
   {
+    src: "/gallery/fire-raindrops.webp",
+    alt: "Fire Raindrops banner: cream brush lettering and ten player names around a soccer ball on a deep red field.",
+    title: "Fire Raindrops",
+    width: 1024,
+    height: 614,
+  },
+  {
+    src: "/gallery/pink-mermacorns.webp",
+    alt: "Pink Mermacorns banner: a pink mermaid unicorn leaping through waves beside a pink soccer ball.",
+    title: "Pink Mermacorns",
+    width: 1024,
+    height: 614,
+  },
+  {
     src: "/gallery/magical-unicorns.webp",
     alt: "Magical Unicorns banner: a pink unicorn kicking a purple soccer ball.",
     title: "Magical Unicorns",

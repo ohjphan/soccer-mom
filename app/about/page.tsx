@@ -5,10 +5,13 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { primaryClass } from "@/components/ui";
 import { publicPath } from "@/lib/public-path";
+import { absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Banner Duty is a free soccer banner design tool for parents who ended up in charge of the team banner.",
+  description: "How to make a soccer banner when you got stuck with banner duty. A free design tool for youth soccer parents.",
+  alternates: { canonical: absoluteUrl("/about/") },
+  openGraph: { url: absoluteUrl("/about/") },
 };
 
 export default function AboutPage() {
@@ -39,7 +42,7 @@ export default function AboutPage() {
                 He&apos;s been playing soccer since he was five, and every year, I&apos;ve gotten a little more into it. A little passionate. A little intense. Definitely a little competitive.
               </p>
               <p>
-                With a background in graphic design, I was equally determined that his team banner should feel like <strong>their</strong> team, not something generic pulled from a template.
+                I was equally determined that his team banner should feel like <strong>their</strong> team, not something generic pulled from a template.
               </p>
               <p>Because the banner is more than decoration.</p>
               <p>When it looks sharp, the kids notice. They stand a little taller. They feel like a real team. The pride starts before the first whistle.</p>
@@ -72,6 +75,46 @@ export default function AboutPage() {
           />
         </div>
         <section className="mt-16">
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "HowTo",
+                name: "How to make a soccer team banner",
+                description: "Four steps. You leave with a banner file you can print yourself.",
+                tool: [{ "@type": "HowToTool", name: "ChatGPT" }],
+                step: [
+                  {
+                    "@type": "HowToStep",
+                    position: 1,
+                    name: "Tell us about your team",
+                    text: "Add the team name, choose boys or girls, and pick the color.",
+                    url: absoluteUrl("/create/"),
+                  },
+                  {
+                    "@type": "HowToStep",
+                    position: 2,
+                    name: "Choose your vibe",
+                    text: "Choose up to three moods. Add additional notes.",
+                  },
+                  {
+                    "@type": "HowToStep",
+                    position: 3,
+                    name: "Copy prompt, select, and finalize",
+                    text: "Copy a prompt to generate 3 concepts. Pick one, then copy one more prompt to finalize.",
+                  },
+                  {
+                    "@type": "HowToStep",
+                    position: 4,
+                    name: "Print it",
+                    text: "You print it yourself. A banner and a stand are waiting when you are ready.",
+                    url: absoluteUrl("/where-to-print/"),
+                  },
+                ],
+              }),
+            }}
+          />
           <h2 className="text-center font-display text-2xl leading-tight tracking-tight sm:text-4xl">How it works</h2>
           <p className="mx-auto mt-4 max-w-2xl text-center text-lg leading-8 text-muted">
             Four steps. You leave with a banner file you can print yourself.

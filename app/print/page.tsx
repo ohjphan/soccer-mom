@@ -4,6 +4,7 @@ import { RequireBrief } from "@/components/require-brief";
 
 export const metadata: Metadata = {
   title: "Bring it to the sidelines",
+  robots: { index: false, follow: true },
 };
 
 export default function PrintPage() {

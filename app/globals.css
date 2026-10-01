@@ -60,47 +60,6 @@ body {
   }
 }
 
-.hero-float {
-  animation-name: hero-float;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes hero-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-}
-
-.hero-banner-in {
-  animation: hero-banner-fade 0.9s ease;
-}
-
-.hero-banner-out {
-  animation: hero-banner-fade 0.9s ease reverse;
-}
-
-@keyframes hero-banner-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-float,
-  .hero-banner-in,
-  .hero-banner-out {
-    animation: none;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .gallery-pan,
   .hero-pan {

@@ -7,7 +7,7 @@ import { FlowShell } from "@/components/flow-shell";
 import { useNamePlaceholder } from "@/components/name-placeholder";
 import { ColorPickerIcon, Loading, primaryClass } from "@/components/ui";
 import { colorHex, swatchById, SWATCHES, type SwatchId } from "@/lib/colors";
-import { furtherStep, hasColor, hasRoster, isBriefComplete, type Draft } from "@/lib/draft";
+import { furtherStep, hasColor, hasPlayerNames, hasRoster, isBriefComplete, PLAYER_NAME_LIMIT, playerNameCount, type Draft } from "@/lib/draft";
 import { isProfane } from "@/lib/profanity";
 import { toggleVibe, VIBES, vibesByIds } from "@/lib/vibes";
 
@@ -170,7 +170,8 @@ export function CreateFlow() {
   const profane = isProfane(draft.teamName);
   const selected = vibesByIds(draft.vibes);
   const atMax = draft.vibes.length >= 3;
-  const teamReady = Boolean(name) && !profane && hasRoster(draft) && hasColor(draft);
+  const nameCount = playerNameCount(draft.playerNames);
+  const teamReady = Boolean(name) && !profane && hasRoster(draft) && hasColor(draft) && hasPlayerNames(draft);
   if (draft.createStep === "team") {
     return (
       <FlowShell
@@ -281,6 +282,52 @@ export function CreateFlow() {
                 onSwatch={(id) => update({ secondaryColorId: draft.secondaryColorId === id ? "" : id })}
                 onCustom={(hex) => update({ secondaryColorId: "custom", secondaryCustomHex: hex })}
               />
+            </div>
+          ) : null}
+
+          <label className="mt-8 flex min-h-11 cursor-pointer items-center gap-3 font-semibold">
+            <input
+              type="checkbox"
+              checked={draft.includeNames}
+              onChange={(event) => update({ includeNames: event.target.checked })}
+              className="peer sr-only"
+            />
+            <span
+              aria-hidden="true"
+              className="flex h-6 w-6 shrink-0 items-center justify-center border-2 border-foreground bg-card text-white peer-checked:bg-foreground peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-[3px] peer-focus-visible:outline-accent"
+            >
+              {draft.includeNames ? (
+                <svg viewBox="0 0 16 16" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M3 8.2 L6.4 11.5 L13 4.5" />
+                </svg>
+              ) : null}
+            </span>
+            Do you want to include your team names?
+          </label>
+          {draft.includeNames ? (
+            <div className="mt-6">
+              <label htmlFor="player-names" className="block font-semibold">
+                Names <span className="text-sm font-normal text-muted">separated by commas</span>
+              </label>
+              <textarea
+                id="player-names"
+                value={draft.playerNames}
+                onChange={(event) => update({ playerNames: event.target.value })}
+                placeholder="Maya, Jordan, Sam"
+                rows={2}
+                maxLength={800}
+                autoComplete="off"
+                aria-invalid={nameCount > PLAYER_NAME_LIMIT}
+                aria-describedby="player-names-note"
+                className={`${fieldClass} mt-3 py-3`}
+              />
+              <p id="player-names-note" className={`mt-3 text-base ${nameCount > PLAYER_NAME_LIMIT ? "font-medium text-foreground" : "text-muted"}`} role={nameCount > PLAYER_NAME_LIMIT ? "alert" : undefined}>
+                {nameCount > PLAYER_NAME_LIMIT
+                  ? `That's ${nameCount} names. Use up to ${PLAYER_NAME_LIMIT}.`
+                  : nameCount === 0
+                    ? `Add at least one name. Up to ${PLAYER_NAME_LIMIT}.`
+                    : `${nameCount} of ${PLAYER_NAME_LIMIT} names.`}
+              </p>
             </div>
           ) : null}
         </form>

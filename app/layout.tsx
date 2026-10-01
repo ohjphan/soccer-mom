@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BBH_Bartle, DM_Mono, Outfit } from "next/font/google";
 import { DraftProvider } from "@/components/draft-store";
+import { absoluteUrl, SITE_ORIGIN } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -20,12 +21,28 @@ const dmMono = DM_Mono({
   weight: "500",
 });
 
+const description =
+  "Make a custom soccer team banner for free. Add the name, color, and vibe, then buy a 5×3 ft print. No design skills needed.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_ORIGIN),
   title: {
-    default: "Banner Duty",
+    default: "Soccer banner design · Banner Duty",
     template: "%s · Banner Duty",
   },
-  description: "Create a custom soccer banner in minutes. No design skills needed.",
+  description,
+  applicationName: "Banner Duty",
+  alternates: { canonical: absoluteUrl("/") },
+  openGraph: {
+    title: "Soccer banner design · Banner Duty",
+    description,
+    type: "website",
+    siteName: "Banner Duty",
+    url: absoluteUrl("/"),
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

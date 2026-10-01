@@ -1,5 +1,5 @@
 import { colorDirection, secondaryColorDirection } from "@/lib/colors";
-import { isLongName, type ConceptChoice, type Draft } from "@/lib/draft";
+import { isLongName, parsedPlayerNames, PLAYER_NAME_LIMIT, playerNameCount, type ConceptChoice, type Draft } from "@/lib/draft";
 import { vibesByIds } from "@/lib/vibes";
 
 const SKIP_WORDS = new Set([
@@ -136,6 +136,46 @@ function colorRule(draft: Draft): string {
   return "The primary color is dominant. Use the secondary color as a clear supporting hit in the mascot, lettering, or a stripe. Neutrals can do the rest. Do not add extra team colors.";
 }
 
+function playerNamesBrief(draft: Draft): string {
+  const count = playerNameCount(draft.playerNames);
+  if (!draft.includeNames || count === 0 || count > PLAYER_NAME_LIMIT) {
+    return ["Do not add individual player names.", "The team name is the only required wording."].join("\n");
+  }
+
+  const names = parsedPlayerNames(draft.playerNames);
+  const leftCount = Math.ceil(names.length / 2);
+  const left = names.slice(0, leftCount);
+  const right = names.slice(leftCount);
+  const numbered = names.map((player, index) => `${index + 1}. ${player}`).join("\n");
+
+  return [
+    "Include these player names on every concept, in this order, spelled exactly:",
+    numbered,
+    "Do not add, drop, nickname, abbreviate, or reorder a name.",
+    "The team name stays the hero. It must read from across the field.",
+    "Player names are clearly smaller supporting type. They must still be readable. Do not shrink them into decoration.",
+    "Give every name comfortable margin. Do not let a name collide with the mascot, the team name, or the banner edge.",
+    "The three concepts must use three different name arrangements:",
+    `1. Team name centered. Names on the left: ${left.join(", ")}. Names on the right: ${right.join(", ") || "none"}.`,
+    "2. Team name on the left. Stack every player name on the right.",
+    "3. Team name large across the top. Set the player names in a compact band underneath.",
+  ].join("\n");
+}
+
+function playerNamesFinalize(draft: Draft): string {
+  const count = playerNameCount(draft.playerNames);
+  if (!draft.includeNames || count === 0 || count > PLAYER_NAME_LIMIT) {
+    return "Do not introduce individual player names.";
+  }
+
+  const names = parsedPlayerNames(draft.playerNames);
+  return [
+    "Keep the approved arrangement of the player names.",
+    `Spell every player name exactly, in this order: ${names.join(", ")}.`,
+    "Do not add or remove a name.",
+  ].join("\n");
+}
+
 function selectedConcept(concept: ConceptChoice): string {
   const place =
     concept === 1
@@ -225,6 +265,8 @@ Secondary team color: ${secondary}
 Vibe:
 ${vibeBlock}
 ${notes ? `\nOptional parent direction:\n${notes}\n` : ""}
+${playerNamesBrief(draft)}
+
 ---
 
 # ASSIGNMENT
@@ -796,7 +838,7 @@ export function buildFinalizePrompt(draft: Draft): string {
       ? selectedConcept(draft.concept)
       : "Use this exact approved banner design as the basis for the final artwork.",
     "Do not redesign the concept or introduce a new creative direction.",
-    [`Team name, spelled exactly: ${name}`, rosterLine(draft), colorBrief(draft), colorRule(draft)]
+    [`Team name, spelled exactly: ${name}`, rosterLine(draft), playerNamesFinalize(draft), colorBrief(draft), colorRule(draft)]
       .filter(Boolean)
       .join("\n"),
     "Prepare the artwork for a horizontal 5 ft × 3 ft soccer banner.",
