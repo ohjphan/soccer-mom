@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { MatchaTrigger } from "@/components/ice-matcha";
 import { bannerFaqs } from "@/lib/banner-faq";
 import { absoluteUrl } from "@/lib/site";
 
@@ -71,6 +72,19 @@ export function BannerAnswers() {
                     Where to print
                   </Link>{" "}
                   page has the banner and a sideline stand.
+                </>
+              ) : item.question === "Is soccer banner design free?" ? (
+                <>
+                  <span className="block">
+                    Yep. Banner Duty is completely free. You only pay if you decide to print your banner or buy a stand.
+                  </span>
+                  <span className="mt-2 block">
+                    If you enjoyed using it and want to support Banner Duty, you can{" "}
+                    <MatchaTrigger className="text-foreground underline underline-offset-4">
+                      buy me a matcha 🍵
+                    </MatchaTrigger>
+                    . It helps me keep making little things like this for soccer parents.
+                  </span>
                 </>
               ) : (
                 item.answer

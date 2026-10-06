@@ -23,6 +23,7 @@ export const bannerFaqs = [
   },
   {
     question: "Is soccer banner design free?",
-    answer: "Banner Duty is free. You pay only if you decide to print the banner or buy a stand.",
+    answer:
+      "Yep. Banner Duty is completely free. You only pay if you decide to print your banner or buy a stand. If you enjoyed using it and want to support Banner Duty, you can buy me a matcha 🍵. It helps me keep making little things like this for soccer parents.",
   },
 ] as const;

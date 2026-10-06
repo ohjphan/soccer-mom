@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BBH_Bartle, DM_Mono, Outfit } from "next/font/google";
 import { DraftProvider } from "@/components/draft-store";
+import { MatchaModalProvider } from "@/components/ice-matcha";
 import { absoluteUrl, SITE_ORIGIN } from "@/lib/site";
 import "./globals.css";
 
@@ -49,7 +50,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${outfit.variable} ${bbhBartle.variable} ${dmMono.variable} min-h-full antialiased`}>
       <body className="min-h-full bg-background font-sans text-foreground">
-        <DraftProvider>{children}</DraftProvider>
+        <DraftProvider>
+          <MatchaModalProvider>{children}</MatchaModalProvider>
+        </DraftProvider>
       </body>
     </html>
   );

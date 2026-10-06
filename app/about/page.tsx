@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HowItWorks } from "@/components/how-it-works";
+import { IceMatcha } from "@/components/ice-matcha";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { primaryClass } from "@/components/ui";
@@ -60,6 +61,7 @@ export default function AboutPage() {
               <h2 className="pt-6 font-sans text-2xl font-semibold leading-tight">Your turn.</h2>
               <p>You&apos;ve already got enough on your soccer-parent to-do list.</p>
               <p>Let&apos;s make the banner the fun part.</p>
+              <IceMatcha />
             </div>
             <Link href="/create" className={`${primaryClass} mt-8 sm:w-auto sm:px-8`}>
               Create your team banner →
